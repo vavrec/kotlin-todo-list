@@ -1,0 +1,6 @@
+spring:
+  flyway:
+    locations: classpath:db/migration/
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
