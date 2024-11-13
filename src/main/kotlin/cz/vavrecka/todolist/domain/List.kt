@@ -6,23 +6,16 @@ import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
-import java.util.*
+import java.util.UUID
 
-@Table("to_do_list_user")
-data class User(
-    @Id @Column("user_id") @JvmField val id: UUID,
-    val name: String,
-    val email: String,
-    @JvmField @Transient val isNew: Boolean
-) : Persistable<UUID> {
+@Table("list")
+data class List(@Id @Column("list_id") @JvmField val id: UUID, val name: String, @JvmField @Transient val isNew: Boolean) :
+    Persistable<UUID> {
 
     @PersistenceCreator
-    constructor(id: UUID, name: String, email: String) : this(id, name, email, false)
+    constructor(id: UUID, name: String) : this(id, name, false)
 
-    override fun getId() = this.id
+    override fun getId() = id
 
-    override fun isNew() = this.isNew
+    override fun isNew() = isNew
 }
-
-
-
