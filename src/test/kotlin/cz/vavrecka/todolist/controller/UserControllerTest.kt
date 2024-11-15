@@ -38,9 +38,8 @@ class UserControllerTest {
 
     @ParameterizedTest
     @CsvSource(
-        delimiter = '|', ignoreLeadingAndTrailingWhitespace = false, nullValues = ["null"], textBlock = """
+        delimiter = '|', ignoreLeadingAndTrailingWhitespace = false, textBlock = """
                 |   test@test.cz 
-        null    |   test@test.cz
         name    |   hello       
         name    |                """
     )
