@@ -3,15 +3,11 @@ package cz.vavrecka.todolist.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import cz.vavrecka.todolist.domain.List
-import cz.vavrecka.todolist.domain.User
+import cz.vavrecka.todolist.exception.UserNotFound
 import cz.vavrecka.todolist.model.NewList
-import cz.vavrecka.todolist.model.NewUser
 import cz.vavrecka.todolist.service.ListService
-import cz.vavrecka.todolist.service.UserService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.kotlin.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -75,6 +71,29 @@ class ListControllerTest {
             }
 
         verify(listService, never()).createList(any())
+    }
+
+    @Test
+    fun `create list - user not found - returns 400 and error message`() {
+        val uuid = UUID.fromString("dd8aac75-10b5-4f92-ba2e-4a7bddc003ce")
+        val name = "test"
+        val newList = NewList(name, uuid)
+
+        whenever(listService.createList(eq(newList))).thenAnswer {
+            throw UserNotFound("User: $uuid not found")
+        }
+
+        this.mockMvc.perform(
+            post(ListController.PATH).accept(APPLICATION_JSON_VALUE)
+                .contentType(APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(newList))
+        )
+            .andExpect(status().isBadRequest)
+            .andExpect {
+                val response = objectMapper.readValue<ProblemDetail>(it.response.contentAsString)
+                assertThat(response).isExactlyInstanceOf(ProblemDetail::class.java)
+                assertThat(response.detail).isEqualTo("Invalid data")
+            }
     }
 
     @Test
