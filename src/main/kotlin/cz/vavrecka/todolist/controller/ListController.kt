@@ -26,7 +26,7 @@ class ListController(private val listService: ListService) {
     @PostMapping(consumes = [JSON], produces = [JSON])
     fun createList(@RequestBody @Valid newList: NewList): ResponseEntity<List> {
         listService.createList(newList).let {
-            return ResponseEntity(it, HttpStatus.OK)
+            return ResponseEntity(it, HttpStatus.CREATED)
         }
     }
 

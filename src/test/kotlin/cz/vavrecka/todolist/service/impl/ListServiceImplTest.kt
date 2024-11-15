@@ -1,5 +1,6 @@
 package cz.vavrecka.todolist.service.impl
 
+import cz.vavrecka.TestTags
 import cz.vavrecka.todolist.domain.List
 import cz.vavrecka.todolist.domain.User
 import cz.vavrecka.todolist.model.NewList
@@ -8,18 +9,20 @@ import cz.vavrecka.todolist.service.ListService
 import cz.vavrecka.todolist.service.UserListCrossReferenceService
 import cz.vavrecka.todolist.service.UserService
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.*
 import java.util.*
 
+@Tag(TestTags.UNIT_TEST)
 class ListServiceImplTest {
 
     val userServiceMock = mock<UserService>()
 
     val userListCrossReferenceServiceMock = mock<UserListCrossReferenceService>()
 
-    var listRepositoryMock = mock<ListRepository>()
+    val listRepositoryMock = mock<ListRepository>()
 
     val listservice: ListService = ListServiceImpl(
         listRepositoryMock, userServiceMock,

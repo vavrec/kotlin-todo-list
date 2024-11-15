@@ -1,11 +1,14 @@
 package cz.vavrecka.todolist.service.impl
 
+import cz.vavrecka.TestTags
 import cz.vavrecka.todolist.domain.UserListCrossReference
 import cz.vavrecka.todolist.repository.UserListCrossReferenceRepository
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.*
 import java.util.UUID
 
+@Tag(TestTags.UNIT_TEST)
 class UserListCrossReferenceServiceTest {
 
     val userListReferenceRepository = mock<UserListCrossReferenceRepository>()

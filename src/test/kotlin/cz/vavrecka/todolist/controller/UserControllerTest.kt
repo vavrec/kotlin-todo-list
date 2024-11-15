@@ -2,11 +2,13 @@ package cz.vavrecka.todolist.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import cz.vavrecka.TestTags
 import cz.vavrecka.todolist.domain.User
 import cz.vavrecka.todolist.exception.UserNotFound
 import cz.vavrecka.todolist.model.NewUser
 import cz.vavrecka.todolist.service.UserService
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -23,7 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.util.*
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE as JSON
 
-
+@Tag(TestTags.COMPONENT_TEST)
 @WebMvcTest(UserController::class)
 class UserControllerTest {
 
@@ -99,7 +101,7 @@ class UserControllerTest {
                 .contentType(JSON)
                 .content(objectMapper.writeValueAsString(newUser))
         )
-            .andExpect(status().isOk)
+            .andExpect(status().isCreated)
             .andExpect {
                 val response = objectMapper.readValue<User>(it.response.contentAsString)
                 assertThat(response).isEqualTo(expectedUser)

@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/admin?ApplicationName=TODO-List
-    password: admin
-    username: admin
+    url: placeholder
+    password: placeholder
+    username: placeholder

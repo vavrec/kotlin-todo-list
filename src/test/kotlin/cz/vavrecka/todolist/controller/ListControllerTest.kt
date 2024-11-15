@@ -2,11 +2,13 @@ package cz.vavrecka.todolist.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import cz.vavrecka.TestTags
 import cz.vavrecka.todolist.domain.List
 import cz.vavrecka.todolist.exception.UserNotFound
 import cz.vavrecka.todolist.model.NewList
 import cz.vavrecka.todolist.service.ListService
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,7 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.util.*
 
-
+@Tag(TestTags.COMPONENT_TEST)
 @WebMvcTest(ListController::class)
 class ListControllerTest {
 
@@ -111,7 +113,7 @@ class ListControllerTest {
                 .contentType(APPLICATION_JSON_VALUE)
                 .content(objectMapper.writeValueAsString(newList))
         )
-            .andExpect(status().isOk)
+            .andExpect(status().isCreated)
             .andExpect {
                 val response = objectMapper.readValue<List>(it.response.contentAsString)
                 assertThat(response).isEqualTo(expectedList)

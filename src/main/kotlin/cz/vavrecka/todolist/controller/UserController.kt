@@ -26,11 +26,11 @@ class UserController(private val userService: UserService) {
     @PostMapping(consumes = [JSON], produces = [JSON])
     fun createUser(@RequestBody @Valid newUser: NewUser): ResponseEntity<User> {
         userService.create(newUser).let {
-            return ResponseEntity(it, HttpStatus.OK)
+            return ResponseEntity(it, HttpStatus.CREATED)
         }
     }
 
-    @GetMapping(path = ["/{id}"], consumes = [JSON], produces = [JSON])
+    @GetMapping(path = ["/{id}"], produces = [JSON])
     fun finById(@PathVariable id: UUID): ResponseEntity<User> {
         userService.findById(id).let {
             return ResponseEntity(it, HttpStatus.OK)

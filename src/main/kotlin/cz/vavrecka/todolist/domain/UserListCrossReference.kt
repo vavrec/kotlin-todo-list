@@ -2,6 +2,7 @@ package cz.vavrecka.todolist.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.PersistenceCreator
 import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.Column
@@ -20,6 +21,9 @@ data class UserListCrossReference(
     @Column("list_id") val listId: UUID,
     @JvmField @Transient @JsonIgnore val isNew: Boolean
 ) : Persistable<UUID> {
+
+    @PersistenceCreator
+    constructor(userId: UUID, listId: UUID) : this(userId, listId, false)
 
     override fun getId() = userId
 
