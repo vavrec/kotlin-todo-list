@@ -1,5 +1,6 @@
 package cz.vavrecka.todolist.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.PersistenceCreator
 import org.springframework.data.annotation.Transient
@@ -13,7 +14,7 @@ data class User(
     @Id @Column("user_id") @JvmField val id: UUID,
     val name: String,
     val email: String,
-    @JvmField @Transient val isNew: Boolean
+    @JvmField @Transient @JsonIgnore val isNew: Boolean
 ) : Persistable<UUID> {
 
     @PersistenceCreator

@@ -1,5 +1,6 @@
 package cz.vavrecka.todolist.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.PersistenceCreator
 import org.springframework.data.annotation.Transient
@@ -13,7 +14,7 @@ data class Task(
     @Id @Column("task_id") @JvmField val id: UUID,
     val name: String,
     @Column("list_id") val listId: UUID,
-    @JvmField @Transient val isNew: Boolean
+    @JvmField @Transient @JsonIgnore val isNew: Boolean
 ) :
     Persistable<UUID> {
 

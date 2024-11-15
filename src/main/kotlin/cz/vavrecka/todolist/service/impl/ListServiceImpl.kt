@@ -18,10 +18,13 @@ class ListServiceImpl(
 
     override fun createList(newList: NewList): List {
         val user = userService.findById(newList.userId)
-        val savedList = listRepository.save(newList.toList())
+
+        val list = newList.toList();
+
+        val savedList = listRepository.save(list)
         userListCrossReferenceService.createCrossReference(savedList.id,user.id)
         return savedList
     }
 
-    private fun NewList.toList() = List(id = UUID.randomUUID(), name = this.name)
+    private fun NewList.toList() = List(id = UUID.randomUUID(), name = this.name, true)
 }

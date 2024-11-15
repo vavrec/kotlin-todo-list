@@ -1,3 +1,10 @@
 package cz.vavrecka.todolist.model
 
-data class NewUser(val name: String, val email: String)
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
+
+data class NewUser(
+    @field:NotBlank val name: String,
+    @field:Email val email: String
+)

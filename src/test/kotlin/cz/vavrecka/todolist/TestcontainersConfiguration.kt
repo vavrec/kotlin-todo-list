@@ -6,13 +6,14 @@ import org.springframework.context.annotation.Bean
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.utility.DockerImageName
 
-@TestConfiguration(proxyBeanMethods = false)
+//@TestConfiguration(proxyBeanMethods = false)
 class TestcontainersConfiguration {
 
-    @Bean
-    @ServiceConnection
-    fun postgresContainer(): PostgreSQLContainer<*> {
-        return PostgreSQLContainer(DockerImageName.parse("postgres:latest"))
-    }
+//    @Bean
+//    @ServiceConnection
+//    fun postgresContainer(): PostgreSQLContainer<*> {
+//        return PostgreSQLContainer(DockerImageName.parse("postgres:alpine3.19"))
+//            .withExposedPorts()
+//    }
 
 }
