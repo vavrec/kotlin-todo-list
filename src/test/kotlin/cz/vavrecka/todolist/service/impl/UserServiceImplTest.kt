@@ -2,7 +2,7 @@ package cz.vavrecka.todolist.service.impl
 
 import cz.vavrecka.TestTags
 import cz.vavrecka.todolist.domain.User
-import cz.vavrecka.todolist.exception.UserNotFound
+import cz.vavrecka.todolist.exception.NotFound
 import cz.vavrecka.todolist.model.NewUser
 import cz.vavrecka.todolist.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
@@ -29,7 +29,7 @@ class UserServiceImplTest {
         doAnswer { Optional.ofNullable(null) }.whenever(userRepository).findById(any())
 
         assertThatThrownBy { userService.findById(UUID.randomUUID()) }
-            .isExactlyInstanceOf(UserNotFound::class.java)
+            .isExactlyInstanceOf(NotFound::class.java)
             .hasMessageStartingWith("User")
             .hasMessageEndingWith("not found")
     }

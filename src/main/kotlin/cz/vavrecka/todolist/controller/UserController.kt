@@ -2,7 +2,7 @@ package cz.vavrecka.todolist.controller
 
 import cz.vavrecka.todolist.controller.UserController.Companion.PATH
 import cz.vavrecka.todolist.domain.User
-import cz.vavrecka.todolist.exception.UserNotFound
+import cz.vavrecka.todolist.exception.NotFound
 import cz.vavrecka.todolist.model.NewUser
 import cz.vavrecka.todolist.service.UserService
 import jakarta.validation.Valid
@@ -38,8 +38,8 @@ class UserController(private val userService: UserService) {
     }
 
 
-    @ExceptionHandler(UserNotFound::class)
-    fun userNotFoundExceptionHandler(userNotFound: UserNotFound): ProblemDetail {
+    @ExceptionHandler(NotFound::class)
+    fun notFoundExceptionHandler(notFound: NotFound): ProblemDetail {
         // TODO add logger
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid data")
     }

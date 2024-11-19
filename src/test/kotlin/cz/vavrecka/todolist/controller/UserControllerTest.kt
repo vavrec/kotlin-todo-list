@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import cz.vavrecka.TestTags
 import cz.vavrecka.todolist.domain.User
-import cz.vavrecka.todolist.exception.UserNotFound
+import cz.vavrecka.todolist.exception.NotFound
 import cz.vavrecka.todolist.model.NewUser
 import cz.vavrecka.todolist.service.UserService
 import org.assertj.core.api.Assertions.assertThat
@@ -113,7 +113,7 @@ class UserControllerTest {
         val uuid = UUID.fromString("dd8aac75-10b5-4f92-ba2e-4a7bddc003ce")
 
         whenever(userService.findById(eq(uuid))).thenAnswer {
-            throw UserNotFound("User: $uuid not found")
+            throw NotFound("User: $uuid not found")
         }
 
         this.mockMvc.perform(get("${UserController.PATH}/$uuid").accept(JSON).contentType(JSON))

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import cz.vavrecka.TestTags
 import cz.vavrecka.todolist.domain.List
-import cz.vavrecka.todolist.exception.UserNotFound
+import cz.vavrecka.todolist.exception.NotFound
 import cz.vavrecka.todolist.model.NewList
 import cz.vavrecka.todolist.service.ListService
 import org.assertj.core.api.Assertions.assertThat
@@ -82,7 +82,7 @@ class ListControllerTest {
         val newList = NewList(name, uuid)
 
         whenever(listService.createList(eq(newList))).thenAnswer {
-            throw UserNotFound("User: $uuid not found")
+            throw NotFound("User: $uuid not found")
         }
 
         this.mockMvc.perform(
