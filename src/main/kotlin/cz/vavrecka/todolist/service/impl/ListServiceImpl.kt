@@ -1,7 +1,7 @@
 package cz.vavrecka.todolist.service.impl
 
 import cz.vavrecka.todolist.domain.List
-import cz.vavrecka.todolist.exception.NotFound
+import cz.vavrecka.todolist.exception.NotFoundException
 import cz.vavrecka.todolist.model.NewList
 import cz.vavrecka.todolist.repository.ListRepository
 import cz.vavrecka.todolist.service.ListService
@@ -19,7 +19,7 @@ class ListServiceImpl(
     private val userListCrossReferenceService: UserListCrossReferenceService
 ) : ListService {
 
-    override fun findById(id: UUID): List = listRepository.findById(id).orElseThrow { NotFound("List: $id not found") }
+    override fun findById(id: UUID): List = listRepository.findById(id).orElseThrow { NotFoundException("List: $id not found") }
 
     override fun createList(newList: NewList): List {
         // verifying that the user exists

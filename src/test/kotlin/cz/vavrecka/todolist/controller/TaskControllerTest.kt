@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import cz.vavrecka.TestTags
 import cz.vavrecka.todolist.domain.Task
-import cz.vavrecka.todolist.exception.NotFound
+import cz.vavrecka.todolist.exception.NotFoundException
 import cz.vavrecka.todolist.model.NewTask
 import cz.vavrecka.todolist.service.TaskService
 import org.junit.jupiter.api.Tag
@@ -67,7 +67,7 @@ class TaskControllerTest {
         val newTask = NewTask(taskName, listId)
 
         whenever(taskService.createTask(eq(newTask))).thenAnswer {
-            throw NotFound("List: $listId not found")
+            throw NotFoundException("List: $listId not found")
         }
 
         this.mockMvc.perform(

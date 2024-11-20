@@ -3,7 +3,7 @@ package cz.vavrecka.todolist.service.impl
 import cz.vavrecka.TestTags
 import cz.vavrecka.todolist.domain.List
 import cz.vavrecka.todolist.domain.User
-import cz.vavrecka.todolist.exception.NotFound
+import cz.vavrecka.todolist.exception.NotFoundException
 import cz.vavrecka.todolist.model.NewList
 import cz.vavrecka.todolist.repository.ListRepository
 import cz.vavrecka.todolist.service.ListService
@@ -36,7 +36,7 @@ class ListServiceImplTest {
         doAnswer { Optional.ofNullable(null) }.whenever(listRepositoryMock).findById(any())
 
         assertThatThrownBy { listservice.findById(UUID.randomUUID()) }
-            .isExactlyInstanceOf(NotFound::class.java)
+            .isExactlyInstanceOf(NotFoundException::class.java)
             .hasMessageStartingWith("List")
             .hasMessageEndingWith("not found")
     }

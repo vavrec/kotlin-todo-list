@@ -3,7 +3,7 @@ package cz.vavrecka.todolist.controller
 
 import cz.vavrecka.todolist.controller.ListController.Companion.PATH
 import cz.vavrecka.todolist.domain.List
-import cz.vavrecka.todolist.exception.NotFound
+import cz.vavrecka.todolist.exception.NotFoundException
 import cz.vavrecka.todolist.model.NewList
 import cz.vavrecka.todolist.service.ListService
 import jakarta.validation.Valid
@@ -28,8 +28,8 @@ class ListController(private val listService: ListService) {
         }
     }
 
-    @ExceptionHandler(NotFound::class)
-    fun userNotFoundExceptionHandler(notFound: NotFound): ProblemDetail {
+    @ExceptionHandler(NotFoundException::class)
+    fun userNotFoundExceptionHandler(notFoundException: NotFoundException): ProblemDetail {
         // TODO add logger
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid data")
     }
