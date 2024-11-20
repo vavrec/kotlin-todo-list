@@ -4,9 +4,11 @@ import cz.vavrecka.todolist.domain.UserListCrossReference
 import cz.vavrecka.todolist.repository.UserListCrossReferenceRepository
 import cz.vavrecka.todolist.service.UserListCrossReferenceService
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
+@Transactional
 class UserListCrossReferenceServiceImpl(private val userListReferenceRepository: UserListCrossReferenceRepository) :
     UserListCrossReferenceService {
 

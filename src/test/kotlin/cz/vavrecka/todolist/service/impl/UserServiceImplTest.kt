@@ -11,10 +11,7 @@ import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
-import org.mockito.kotlin.any
-import org.mockito.kotlin.doAnswer
-import org.mockito.kotlin.eq
-import org.mockito.kotlin.whenever
+import org.mockito.kotlin.*
 import java.util.*
 
 @Tag(TestTags.UNIT_TEST)
@@ -35,15 +32,30 @@ class UserServiceImplTest {
     }
 
     @Test
+    fun `find user by Id`() {
+        val userId = UUID.randomUUID()
+        val user = User(userId, "test", "tes@test.cz", false)
+
+        doAnswer { Optional.of(user) }.whenever(userRepository).findById(eq(userId))
+
+        val result = userService.findById(user.id)
+
+        assertThat(result).isEqualTo(user)
+        verify(userRepository).findById(eq(userId))
+    }
+
+
+    @Test
     fun `create user - newUser toUser mapping test`() {
 
         val newUser = NewUser("newUser", "newUser@email.com")
         val uuid = UUID.fromString("ee115ae7-2ce9-4309-86e3-c9b7aac96560")
         val expectedUser = User(uuid, "newUser", "newUser@email.com", true)
 
+        doAnswer { expectedUser }.whenever(userRepository).save(eq(expectedUser))
+
         Mockito.mockStatic(UUID::class.java).use { mockedUUID ->
             mockedUUID.`when`<Any> { UUID.randomUUID() }.thenReturn(uuid)
-            doAnswer { expectedUser }.whenever(userRepository).save(eq(expectedUser))
             assertThat(userService.create(newUser)).isEqualTo(expectedUser)
         }
     }

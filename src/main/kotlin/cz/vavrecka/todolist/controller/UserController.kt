@@ -9,14 +9,12 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail
 import org.springframework.http.ResponseEntity
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import java.util.*
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE as JSON
 
 @RestController
 @RequestMapping(PATH)
-@Transactional
 class UserController(private val userService: UserService) {
 
     companion object {

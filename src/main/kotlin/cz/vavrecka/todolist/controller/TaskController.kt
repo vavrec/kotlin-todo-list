@@ -1,11 +1,10 @@
 package cz.vavrecka.todolist.controller
 
-
-import cz.vavrecka.todolist.controller.ListController.Companion.PATH
-import cz.vavrecka.todolist.domain.List
+import cz.vavrecka.todolist.controller.TaskController.Companion.PATH
+import cz.vavrecka.todolist.domain.Task
 import cz.vavrecka.todolist.exception.NotFound
-import cz.vavrecka.todolist.model.NewList
-import cz.vavrecka.todolist.service.ListService
+import cz.vavrecka.todolist.model.NewTask
+import cz.vavrecka.todolist.service.TaskService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail
@@ -15,15 +14,15 @@ import org.springframework.http.MediaType.APPLICATION_JSON_VALUE as JSON
 
 @RestController
 @RequestMapping(PATH)
-class ListController(private val listService: ListService) {
+class TaskController(private val taskService: TaskService) {
 
     companion object {
-        const val PATH = "/api/v1/list"
+        const val PATH = "/api/v1/task"
     }
 
-    @PostMapping(consumes = [JSON], produces = [JSON])
-    fun createList(@RequestBody @Valid newList: NewList): ResponseEntity<List> {
-        listService.createList(newList).let {
+    @PostMapping(produces = [JSON], consumes = [JSON])
+    fun createTask(@RequestBody @Valid newTask: NewTask): ResponseEntity<Task> {
+        taskService.createTask(newTask).let {
             return ResponseEntity(it, HttpStatus.CREATED)
         }
     }

@@ -16,9 +16,9 @@ CREATE TABLE list
 
 CREATE TABLE task
 (
-    task_id     UUID PRIMARY KEY,
-    description VARCHAR,
-    list_id     UUID,
+    task_id UUID PRIMARY KEY,
+    name    VARCHAR,
+    list_id UUID,
     FOREIGN KEY (list_id) REFERENCES list (list_id)
 );
 
