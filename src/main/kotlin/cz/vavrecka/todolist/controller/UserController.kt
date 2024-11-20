@@ -5,6 +5,11 @@ import cz.vavrecka.todolist.domain.User
 import cz.vavrecka.todolist.exception.NotFoundException
 import cz.vavrecka.todolist.model.NewUser
 import cz.vavrecka.todolist.service.UserService
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail
@@ -15,12 +20,34 @@ import org.springframework.http.MediaType.APPLICATION_JSON_VALUE as JSON
 
 @RestController
 @RequestMapping(PATH)
+@Tag(name = "User", description = "User API")
 class UserController(private val userService: UserService) {
 
     companion object {
         const val PATH = "/api/v1/user"
     }
 
+
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "OK"),
+            ApiResponse(
+                responseCode = "400",
+                description = "Request contains invalid data like invalid email.",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = ProblemDetail::class)
+                )]
+            ),
+            ApiResponse(
+                responseCode = "500",
+                description = "Internal error",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = ProblemDetail::class)
+                )]
+            )]
+    )
     @PostMapping(consumes = [JSON], produces = [JSON])
     fun createUser(@RequestBody @Valid newUser: NewUser): ResponseEntity<User> {
         userService.create(newUser).let {
@@ -28,6 +55,26 @@ class UserController(private val userService: UserService) {
         }
     }
 
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "OK"),
+            ApiResponse(
+                responseCode = "400",
+                description = "Request contains invalid data like invalid user id.",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = ProblemDetail::class)
+                )]
+            ),
+            ApiResponse(
+                responseCode = "500",
+                description = "Internal error",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = ProblemDetail::class)
+                )]
+            )]
+    )
     @GetMapping(path = ["/{id}"], produces = [JSON])
     fun finById(@PathVariable id: UUID): ResponseEntity<User> {
         userService.findById(id).let {
