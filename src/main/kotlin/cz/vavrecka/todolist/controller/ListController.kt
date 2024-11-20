@@ -6,6 +6,7 @@ import cz.vavrecka.todolist.domain.List
 import cz.vavrecka.todolist.exception.NotFoundException
 import cz.vavrecka.todolist.model.NewList
 import cz.vavrecka.todolist.service.ListService
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -17,6 +18,8 @@ import org.springframework.http.ProblemDetail
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE as JSON
+
+private val logger = KotlinLogging.logger {}
 
 @RestController
 @RequestMapping(PATH)
@@ -55,8 +58,8 @@ class ListController(private val listService: ListService) {
     }
 
     @ExceptionHandler(NotFoundException::class)
-    fun userNotFoundExceptionHandler(notFoundException: NotFoundException): ProblemDetail {
-        // TODO add logger
+    fun notFoundExceptionHandler(notFoundException: NotFoundException): ProblemDetail {
+        logger.info { notFoundException }
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid data")
     }
 

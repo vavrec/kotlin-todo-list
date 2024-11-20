@@ -7,9 +7,12 @@ import cz.vavrecka.todolist.repository.ListRepository
 import cz.vavrecka.todolist.service.ListService
 import cz.vavrecka.todolist.service.UserListCrossReferenceService
 import cz.vavrecka.todolist.service.UserService
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
+
+private val logger = KotlinLogging.logger {}
 
 @Service
 @Transactional
@@ -19,7 +22,8 @@ class ListServiceImpl(
     private val userListCrossReferenceService: UserListCrossReferenceService
 ) : ListService {
 
-    override fun findById(id: UUID): List = listRepository.findById(id).orElseThrow { NotFoundException("List: $id not found") }
+    override fun findById(id: UUID): List =
+        listRepository.findById(id).orElseThrow { NotFoundException("List: $id not found") }
 
     override fun createList(newList: NewList): List {
         // verifying that the user exists
@@ -28,7 +32,10 @@ class ListServiceImpl(
         val list = newList.toList();
 
         val savedList = listRepository.save(list)
-        userListCrossReferenceService.createCrossReference(savedList.id,user.id)
+        userListCrossReferenceService.createCrossReference(savedList.id, user.id)
+
+        logger.info { "List ${savedList.id} created" }
+
         return savedList
     }
 
